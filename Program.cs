@@ -3,6 +3,10 @@ using UserApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ⭐ Render PORT support
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 // Add services to the container.
 builder.Services.AddControllers();
 
@@ -16,16 +20,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
-// Enable Swagger in Development
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Enable Swagger
+app.UseSwagger();
+app.UseSwaggerUI();
 
-// HTTPS redirection OFF (important for localhost)
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
