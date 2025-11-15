@@ -1,0 +1,5 @@
+@UserApi_HostAddress = http://localhost:5192
+
+### GET all users from Test table
+GET {{TestApi_HostAddress}}/weatherforecast/
+Accept: application/json
