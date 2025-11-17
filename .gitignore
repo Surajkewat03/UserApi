@@ -1,0 +1,24 @@
+﻿# Build folders
+bin/
+obj/
+
+# Visual Studio files
+*.user
+*.suo
+*.cache
+*.log
+
+# Build outputs
+*.dll
+*.exe
+*.pdb
+*.mdb
+
+# .NET build artifacts
+*.deps.json
+*.runtimeconfig.json
+*.staticwebassets.endpoints.json
+
+# Others
+*.tmp
+*.bak
