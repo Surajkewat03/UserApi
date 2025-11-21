@@ -1,31 +1,33 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using UserApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ⭐ Only use Render PORT in Production, not in local debug
+if (!builder.Environment.IsDevelopment())
+{
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
+
+// Add services
 builder.Services.AddControllers();
 
-// Add Swagger
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add PostgreSQL (Neon)
+// PostgreSQL (Neon)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("NeonConnection")));
 
 var app = builder.Build();
 
-// Enable Swagger in Development
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Swagger UI enable only in Development (optional but recommended)
+app.UseSwagger();
+app.UseSwaggerUI();
 
-// HTTPS redirection OFF (important for localhost)
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
